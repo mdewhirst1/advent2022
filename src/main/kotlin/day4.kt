@@ -13,13 +13,8 @@ In how many assignment pairs do the ranges overlap? 924
  */
 
 private val input = readResourceFileAsLines("4.txt").map {
-    val (left, right) =  it.split(',')
-    left.toRange() to right.toRange()
-}
-
-fun String.toRange(): IntRange {
-    val (low, high) = this.split('-')
-    return low.toInt() .. high.toInt()
+    val (leftLower, leftHigher, rightLower, rightHigher) =  it.split(',', '-').map(String::toInt)
+    leftLower .. leftHigher to rightLower .. rightHigher
 }
 
 fun IntRange.containsOther(otherRange: IntRange): Boolean {
@@ -33,7 +28,6 @@ fun IntRange.overlapsOther(otherRange: IntRange): Boolean {
 
 fun main() {
     println("part 1: ${part1()}")
-
     println("part 2: ${part2()}")
 }
 
