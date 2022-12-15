@@ -8,9 +8,9 @@ After the rearrangement procedure completes, what crate ends up on top of each s
 
 part 2
 
-pick up and move multiple crates at once. PQTJRSHWS
+pick up and move multiple crates at once.
 
-After the rearrangement procedure completes, what crate ends up on top of each stack?
+After the rearrangement procedure completes, what crate ends up on top of each stack? PQTJRSHWS
  */
 
 typealias Instruction = Triple<Int, Int, Int> // move (\d+) from (\d+) to (\d+)
@@ -28,8 +28,8 @@ private fun part1(): String {
 
     instructions.map { (movesToMake, from, to) ->
         repeat(movesToMake) {
-            val poppedCrate = stacks[from]!!.removeLast()
-            stacks[to]!!.add(poppedCrate)
+            val poppedCrate = stacks[from]!!.removeFirst()
+            stacks[to]!!.add(0, poppedCrate)
         }
     }
 
@@ -42,10 +42,10 @@ private fun part2(): String {
     instructions.map { (amountToMove, from, to) ->
         val poppedCrates = buildList(amountToMove) {
             repeat(amountToMove) {
-                add(0, stacks[from]!!.removeLast())
+                add(0, stacks[from]!!.removeFirst())
             }
         }
-        poppedCrates.map { stacks[to]!!.add(it) }
+        poppedCrates.map { stacks[to]!!.add(0, it) }
     }
 
     return stacks.readTopStackValues()
@@ -69,7 +69,7 @@ fun parseInput(): Pair<Stacks, List<Instruction>> {
     rawStacks.dropLast(1).forEach { stackString ->
         stacks.map { stack ->
             stackString.getOrNull((stack.key - 1) * 4 + 1)?.let {
-                if (it.isLetter()) stacks[stack.key]!!.add(0, it)
+                if (it.isLetter()) stacks[stack.key]!!.add(it)
             }
         }
     }
@@ -77,4 +77,4 @@ fun parseInput(): Pair<Stacks, List<Instruction>> {
     return stacks to instructions
 }
 
-fun Stacks.readTopStackValues() = this.values.map { it.last() }.joinToString("")
+fun Stacks.readTopStackValues() = this.values.map { it.first() }.joinToString("")
