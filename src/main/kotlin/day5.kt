@@ -51,7 +51,7 @@ private fun part2(): String {
     return stacks.readTopStackValues()
 }
 
-fun parseInput(): Pair<Stacks, List<Instruction>> {
+private fun parseInput(): Pair<Stacks, List<Instruction>> {
     val(rawStacks, rawInstructions) = rawInput.split("\n\n").map { it.lines() }
 
     val instructionMatcher = Regex("move (\\d+) from (\\d+) to (\\d+)")
